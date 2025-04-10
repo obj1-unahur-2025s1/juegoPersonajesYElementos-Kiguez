@@ -1,0 +1,66 @@
+import elementos.*
+import jugadoresYPersonajes.*
+import Armas.*
+
+test "La ballesta realiza un disparo, pierde una flecha y se indica que fue usada" {
+  ballesta.UsarArma()
+  assert.equals(9, ballesta.flechas())
+  assert.that(ballesta.fueUsada())
+}
+
+test "la jabalina queda descargada despues de un uso" {
+  jabalina.UsarArma()
+  assert.notThat(jabalina.estaCargada())
+}
+
+test "Floqui se encuentra con el castillo, lo ataca con la jabalina y este pierde 30 puntos de defensa" {
+  floqui.Elegir_ComoArma(jabalina)
+  floqui.Encontrar_(castillo)
+  assert.equals(120, castillo.defensa())
+}
+
+test "floqui ataca con su  ballesta a aurora, pero no la mata" {
+  floqui.Encontrar_(aurora)
+  assert.that(aurora.estaViva())
+}
+
+test "Mario no es feliz" {
+  assert.notThat(mario.sosFeliz())
+}
+
+test "Mario realizo varios arreglos en el castilo, su defensa se estanco en 200 y mario quedo feliz" {
+  mario.Encontrar_(castillo)
+  mario.Encontrar_(castillo)
+  mario.Encontrar_(castillo)
+  mario.Encontrar_(castillo)
+  mario.Encontrar_(castillo)
+  assert.equals(200, castillo.defensa())
+  assert.that(mario.sosFeliz())
+}
+
+test "Mario realizo un arreglo a aurora, recibio 15 puntos pero esto no lo hizo feliz" {
+  mario.Encontrar_(aurora)
+  assert.equals(15, mario.valorRecolectado())
+  assert.notThat(mario.sosFeliz())
+}
+
+test "Mario realizo un arreglo a tipa, esta crecio un metro y mario recibio en puntos el doble de su altura" {
+  mario.Encontrar_(tipa)
+  assert.equals(18, mario.valorRecolectado())
+  assert.equals(9 , tipa.altura())
+}
+
+test "Luisa elige a floqui como personaje, se encuentra con aurora, la ataca con la jabalina y la mata" {
+  luisa.ElegirA_ComoPersonaje(floqui)
+  floqui.Elegir_ComoArma(jabalina)
+  luisa.aparece_(aurora)
+  assert.notThat(aurora.estaViva())
+}
+
+test "Luisa elige a mario como personaje, se encuentra con el castillo, aumenta su defensa en 170 y debido a
+      su altura mario se pone feliz" {
+  luisa.ElegirA_ComoPersonaje(mario)
+  luisa.aparece_(castillo)
+  assert.equals(170, castillo.defensa())
+  assert.that(mario.sosFeliz())
+}
